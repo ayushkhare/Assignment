@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.assignmentsephora.databinding.FragmentProductListBinding
 import com.example.assignmentsephora.di.DependencyUtil
-import com.example.assignmentsephora.service.SephoraRepository
 import com.example.assignmentsephora.viewmodel.ProductViewModel
 import com.example.assignmentsephora.viewmodel.ViewModelFactory
 

@@ -1,9 +1,11 @@
 package com.example.assignmentsephora.view
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.assignmentsephora.R
 import com.example.assignmentsephora.databinding.ProductGridItemBinding
 import com.example.assignmentsephora.model.ProductData
@@ -16,7 +18,24 @@ class ProductListGridAdapter(private var productList: List<ProductData>) :
         private val viewBinding = ProductGridItemBinding.bind(view)
 
         fun bindData(productData: ProductData) {
-            viewBinding.textView.text = productData.id
+            val attributes = productData.attributes
+            viewBinding.productBrand.text = attributes.brandName
+            viewBinding.productName.text = attributes.name
+            viewBinding.productOriginalPrice.apply {
+                paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                text = attributes.displayOriginalPrice
+            }
+            viewBinding.productDiscountedPrice.text = attributes.displayPrice
+            viewBinding.productDiscount.text = "(" + attributes.saleText + ")"
+            viewBinding.productVariantsCount.text =
+                attributes.variantsCount.toString() + " variants"
+            // load image
+            Glide.with(itemView)
+                .load(attributes.defaultImageUrls.first())
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(viewBinding.productImage)
+            viewBinding.productImage
+            viewBinding.rating.rating = attributes.rating.toFloat()
         }
     }
 
