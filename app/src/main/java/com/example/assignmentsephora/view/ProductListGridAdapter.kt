@@ -10,7 +10,10 @@ import com.example.assignmentsephora.R
 import com.example.assignmentsephora.databinding.ProductGridItemBinding
 import com.example.assignmentsephora.model.ProductData
 
-class ProductListGridAdapter(private var productList: List<ProductData>) :
+class ProductListGridAdapter(
+    private var productList: List<ProductData>,
+    private var productClickListener: ProductClickListener
+) :
     RecyclerView.Adapter<ProductListGridAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -51,6 +54,9 @@ class ProductListGridAdapter(private var productList: List<ProductData>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val productData = productList[position]
         holder.bindData(productData)
+        holder.itemView.setOnClickListener {
+            productClickListener.onClickProduct(productData)
+        }
     }
 
     override fun getItemCount(): Int {

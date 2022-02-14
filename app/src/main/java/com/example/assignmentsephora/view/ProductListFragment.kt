@@ -1,5 +1,6 @@
 package com.example.assignmentsephora.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +21,20 @@ class ProductListFragment : Fragment() {
     private lateinit var gridAdapter: ProductListGridAdapter
     private lateinit var viewModel: ProductViewModel
     private var productDataList: MutableList<ProductData> = mutableListOf()
+    private lateinit var productClickListener: ProductClickListener
     private var currentPage = 1
     private var totalPagesAvailable = 1
 
     companion object {
         fun newInstance(): ProductListFragment {
             return ProductListFragment()
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is ProductClickListener) {
+            productClickListener = context
         }
     }
 
@@ -83,7 +92,7 @@ class ProductListFragment : Fragment() {
     private fun setupRecyclerView() {
         val gridLayoutManager = GridLayoutManager(activity, 2)
         binding.productRecyclerView.layoutManager = gridLayoutManager
-        gridAdapter = ProductListGridAdapter(mutableListOf())
+        gridAdapter = ProductListGridAdapter(mutableListOf(), productClickListener)
         binding.productRecyclerView.adapter = gridAdapter
         val onScrollListener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -102,4 +111,8 @@ class ProductListFragment : Fragment() {
             viewModel.getProductResponse(currentPage)
         }
     }
+}
+
+interface ProductClickListener {
+    fun onClickProduct(product: ProductData)
 }
