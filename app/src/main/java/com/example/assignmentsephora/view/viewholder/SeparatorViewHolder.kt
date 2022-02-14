@@ -6,6 +6,6 @@ import com.example.assignmentsephora.view.BaseViewHolder
 
 class SeparatorViewHolder(view: View) : BaseViewHolder<ProductDetail>(view) {
     override fun setData(item: ProductDetail) {
-        TODO("Not yet implemented")
+
     }
 }

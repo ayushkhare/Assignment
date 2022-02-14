@@ -1,11 +1,11 @@
 package com.example.assignmentsephora
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.assignmentsephora.databinding.ActivityMainBinding
 import com.example.assignmentsephora.model.ProductData
 import com.example.assignmentsephora.view.ProductClickListener
+import com.example.assignmentsephora.view.ProductDetailFragment
 import com.example.assignmentsephora.view.ProductListFragment
 
 class MainActivity : AppCompatActivity(), ProductClickListener {
@@ -35,6 +35,15 @@ class MainActivity : AppCompatActivity(), ProductClickListener {
     }
 
     override fun onClickProduct(product: ProductData) {
-        Toast.makeText(this, "${product.id}", Toast.LENGTH_SHORT).show()
+        val productDetailFragment = ProductDetailFragment.newInstance(product)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.fragmentContainer,
+                productDetailFragment,
+                "ProductDetailFragment"
+            )
+            .addToBackStack(null)
+            .commit()
     }
 }
