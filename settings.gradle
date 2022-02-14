@@ -1,0 +1,2 @@
+rootProject.name = "AssignmentSephora"
+include ':app'
