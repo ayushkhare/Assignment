@@ -35,9 +35,16 @@ class ProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProductListBinding.inflate(inflater)
+        setupFab()
         setupRecyclerView()
         setupViewModel()
         return binding.root
+    }
+
+    private fun setupFab() {
+        binding.floatingActionButton.setOnClickListener {
+            binding.productRecyclerView.smoothScrollToPosition(0)
+        }
     }
 
     private fun setupViewModel() {
