@@ -1,5 +1,6 @@
 package com.example.assignmentsephora.service
 
+import com.example.assignmentsephora.model.ProductResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -21,5 +22,5 @@ interface SephoraService {
         @Query(
             "sort"
         ) sort: String = "sales"
-    ): Response<Any>
+    ): Response<ProductResponse>
 }

@@ -10,7 +10,7 @@ class SephoraRepository(private val service: SephoraService) {
                 .getProducts(page)
                 .body()
 
-            updateResult(data as ProductResponse?)
+            updateResult(data)
         }
     }
 }
