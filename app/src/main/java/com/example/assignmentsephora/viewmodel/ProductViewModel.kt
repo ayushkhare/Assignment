@@ -15,7 +15,7 @@ class ProductViewModel(private val repository: SephoraRepository) : ViewModel() 
     private var job: Job? = null
 
     fun getProductResponse(currentPage: Int) {
-        job = CoroutineScope(Dispatchers.Main).launch {
+        job = CoroutineScope(Dispatchers.IO).launch {
             loading.postValue(true)
             repository.loadProducts(currentPage) { response ->
                 withContext(Dispatchers.Main) {
