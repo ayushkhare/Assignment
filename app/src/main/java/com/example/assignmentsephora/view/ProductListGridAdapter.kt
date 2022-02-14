@@ -57,8 +57,8 @@ class ProductListGridAdapter(private var productList: List<ProductData>) :
         return productList.size
     }
 
-    fun setData(data: List<ProductData>) {
+    fun setData(oldCount: Int, data: List<ProductData>) {
         productList = data
-        notifyDataSetChanged()
+        notifyItemRangeInserted(oldCount, data.size)
     }
 }

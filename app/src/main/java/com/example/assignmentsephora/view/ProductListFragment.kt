@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.assignmentsephora.databinding.FragmentProductListBinding
 import com.example.assignmentsephora.di.DependencyUtil
+import com.example.assignmentsephora.model.ProductData
 import com.example.assignmentsephora.viewmodel.ProductViewModel
 import com.example.assignmentsephora.viewmodel.ViewModelFactory
 
@@ -17,6 +19,9 @@ class ProductListFragment : Fragment() {
     private lateinit var binding: FragmentProductListBinding
     private lateinit var gridAdapter: ProductListGridAdapter
     private lateinit var viewModel: ProductViewModel
+    private var productDataList: MutableList<ProductData> = mutableListOf()
+    private var currentPage = 1
+    private var totalPagesAvailable = 1
 
     companion object {
         fun newInstance(): ProductListFragment {
@@ -43,7 +48,10 @@ class ProductListFragment : Fragment() {
 
         viewModel.product.observe(viewLifecycleOwner, { it ->
             if (it != null) {
-                gridAdapter.setData(it.productList)
+                totalPagesAvailable = it.productMeta.totalPages
+                val oldCount = productDataList.size
+                productDataList.addAll(it.productList)
+                gridAdapter.setData(oldCount, productDataList)
             }
         })
 
@@ -61,7 +69,7 @@ class ProductListFragment : Fragment() {
             }
         })
 
-        viewModel.getProductResponse(1)
+        viewModel.getProductResponse(currentPage)
     }
 
     private fun setupRecyclerView() {
@@ -69,5 +77,15 @@ class ProductListFragment : Fragment() {
         binding.productRecyclerView.layoutManager = gridLayoutManager
         gridAdapter = ProductListGridAdapter(mutableListOf())
         binding.productRecyclerView.adapter = gridAdapter
+        val onScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (currentPage <= totalPagesAvailable && !recyclerView.canScrollVertically(1)) {
+                    currentPage += 1
+                    viewModel.getProductResponse(currentPage)
+                }
+            }
+        }
+        binding.productRecyclerView.addOnScrollListener(onScrollListener)
     }
 }

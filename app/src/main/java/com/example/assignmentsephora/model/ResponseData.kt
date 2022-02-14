@@ -6,6 +6,8 @@ import java.io.Serializable
 data class ProductResponse(
     @SerializedName("data")
     val productList: List<ProductData>,
+    @SerializedName("meta")
+    val productMeta: ProductMeta
 )
 
 data class ProductData(
@@ -37,3 +39,8 @@ data class ProductAttributes(
     @SerializedName("how-to-text")
     val howTo: String,
 ) : Serializable
+
+data class ProductMeta(
+    @SerializedName("total-pages")
+    val totalPages: Int
+)
