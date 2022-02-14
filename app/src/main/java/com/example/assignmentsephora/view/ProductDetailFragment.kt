@@ -51,7 +51,7 @@ class ProductDetailFragment : Fragment() {
     private fun setupViewModel(data: ProductData) {
         viewModel = ViewModelProvider(
             this,
-            ViewModelFactory(DependencyUtil.provideSephoraRepository())
+            ViewModelFactory()
         ).get(ProductViewModel::class.java)
 
         viewModel.productDetail.observe(viewLifecycleOwner, {
