@@ -61,4 +61,9 @@ class ProductListGridAdapter(private var productList: List<ProductData>) :
         productList = data
         notifyItemRangeInserted(oldCount, data.size)
     }
+
+    fun clearData() {
+        productList = emptyList()
+        notifyDataSetChanged()
+    }
 }

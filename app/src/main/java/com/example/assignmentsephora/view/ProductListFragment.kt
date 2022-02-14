@@ -47,11 +47,12 @@ class ProductListFragment : Fragment() {
         ).get(ProductViewModel::class.java)
 
         viewModel.product.observe(viewLifecycleOwner, { it ->
+            binding.swipeRefreshContainer.isRefreshing = false
             if (it != null) {
                 totalPagesAvailable = it.productMeta.totalPages
                 val oldCount = productDataList.size
                 productDataList.addAll(it.productList)
-                gridAdapter.setData(oldCount, productDataList)
+                gridAdapter.setData(oldCount, productDataList.distinctBy { it.id })
             }
         })
 
@@ -87,5 +88,11 @@ class ProductListFragment : Fragment() {
             }
         }
         binding.productRecyclerView.addOnScrollListener(onScrollListener)
+        binding.swipeRefreshContainer.setOnRefreshListener {
+            gridAdapter.clearData()
+            productDataList.clear()
+            currentPage = 1
+            viewModel.getProductResponse(currentPage)
+        }
     }
 }
